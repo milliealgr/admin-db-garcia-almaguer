@@ -1,0 +1,107 @@
+Table clientes {
+  dni_cliente varchar [primary key, not null]
+  nombre_completo varchar
+  telefono varchar
+  correo varchar
+}
+
+Table mascotas {
+  id_mascota int [primary key, increment, not null]
+  nombre varchar
+  especie varchar
+  raza varchar
+  fecha_nacimiento date
+  dni_cliente varchar [not null]
+}
+
+Table veterinarios {
+  dni_veterinario varchar [primary key, not null]
+  nombre_completo varchar
+  especialidad varchar
+  telefono varchar
+}
+
+Table atenciones_medicas {
+  id_atencion int [primary key, increment, not null]
+  fecha_hora datetime
+  diagnostico varchar
+  costo_base decimal
+  id_mascota int [not null]
+  dni_veterinario varchar [not null]
+}
+
+Table medicamentos {
+  codigo_medicamento int [primary key, not null]
+  nombre_comercial varchar
+  laboratorio varchar
+  precio_unitario decimal
+}
+
+Table prescripciones {
+  id_prescripcion int [primary key, increment, not null]
+  id_atencion int [not null]
+  codigo_medicamento int [not null]
+  cantidad int
+  indicaciones varchar
+}
+
+Ref: mascotas.dni_cliente > clientes.dni_cliente
+Ref: atenciones_medicas.id_mascota > mascotas.id_mascota
+Ref: atenciones_medicas.dni_veterinario > veterinarios.dni_veterinario
+Ref: prescripciones.id_atencion > atenciones_medicas.id_atencion
+Ref: prescripciones.codigo_medicamento > medicamentos.codigo_medicamento
+
+
+Records clientes(dni_cliente, nombre_completo, telefono, correo)
+{
+  "12345678A", "Elsa Pato", "52451234", "elsa.pato@email.com"
+  "23456789B", "Susana Oria", "72555678", "susana.oria@email.com" 
+  "34567890C", "Alan Brito", "59012", "alan.brito@email.com" 
+  "45678901D", "Elvis Tek", "133456", "elvis.tek@email.com" 
+  "56789012E", "Aquiles Castro", "5557890", "aquiles.castro@email.com"
+}
+
+Records mascotas(id_mascota, nombre, especie, raza, fecha_nacimiento, dni_cliente)
+{
+  1, "Shiro", "Gato", "Bombay", "2020-05-10", "12345678A" 
+  2, "Akira", "Gato", "Calico", "2019-03-15", "23456789B" 
+  3, "Héctor", "Perro", "Pug", "2021-07-20", "34567890C" 
+  4, "Sofia", "Perro", "Pug", "2018-11-05", "45678901D" 
+  5, "Tomasa", "Perro", "Pug", "2022-01-30", "56789012E"
+}
+
+Records veterinarios(dni_veterinario, nombre_completo, especialidad, telefono)
+{
+  "11111111A", "Dr. Armando Bronca", "Veterinaria General", "912345678" 
+  "22222222B", "Dra. Elsa Capunta", "Cirugia", "923456789" 
+  "33333333C", "Dr. Mario Neta", "Veterinaria General", "934567890" 
+  "44444444D", "Dra. Marcia Ana", "Veterinaria General", "945678901" 
+  "55555555E", "Dr. Alejandro King", "Cirugia", "956789012"
+}
+
+Records atenciones_medicas(id_atencion, fecha_hora, diagnostico, costo_base, id_mascota, dni_veterinario)
+{
+  1, "2026-08-01 09:00:00", "Extraccion dental", 900.00, 1, "11111111A" 
+  2, "2026-08-02 10:30:00", "Cirugia de esterilizacion", 2000.00, 2, "33333333C" 
+  3, "2026-08-03 11:00:00", "Extraccion dental", 900.00, 3, "44444444D" 
+  4, "2026-08-04 14:00:00", "Consulta de rutina", 500.00, 4, "55555555E" 
+  5, "2026-08-05 16:00:00", "Cirugia de esterilizacion", 2000.00, 5, "22222222B" 
+}
+
+Records medicamentos(codigo_medicamento, nombre_comercial, laboratorio, precio_unitario)
+{
+  101, "Paracetamol", "Laboratorio Guadalajara", 500.00 
+  102, "Ibuprofeno", "Laboratorio Itzamna", 800.00 
+  103, "Alka Seltzer", "Laboratorio Molina", 600.00 
+  104, "Loratadina", "Laboratorio A", 450.00 
+  105, "Hidroxicina", "Laboratorio Peru", 700.00
+}
+
+Records prescripciones(id_prescripcion, id_atencion, codigo_medicamento, cantidad, indicaciones)
+{
+  1, 1, 101, 10, "Tomar 1 pastilla cada 8 horas por 5 dias" 
+  2, 2, 102, 5, "Tomar 1 pastilla cada 12 horas por 3 dias" 
+  3, 3, 104, 8, "Tomar 1 pastilla cada 12 horas por 4 dias" 
+  4, 4, 105, 6, "Tomar 1 pastilla cada dia por 6 dias" 
+  5, 5, 103, 1, "Tomar 1 pastilla cada 12 horas por 3 dias"
+}

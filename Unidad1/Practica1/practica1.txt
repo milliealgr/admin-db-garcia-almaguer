@@ -1,0 +1,41 @@
+Table usuarios
+{
+  id_usuario integer [primary key]
+  nombre_usuario varchar
+  email_usuario varchar
+}
+
+Table libros
+{
+  id_libro integer [primary key]
+  titulo_libro varchar
+  autor_libro varchar
+}
+
+Table prestamos
+{
+  id_prestamo integer [primary key]
+  fecha_prestamo date
+  id_usuario integer [not null]
+  id_libro integer [not null]
+}
+
+Ref: usuarios.id_usuario < prestamos.id_usuario
+Ref: libros.id_libro < prestamos.id_libro
+
+
+Records usuarios(id_usuario, nombre_usuario, email_usuario) {
+  1, 'Ana Gómez', 'ana@email.com'
+  2, 'Carlos Ruíz', 'carlos@email.com'
+}
+
+Records libros(id_libro, titulo_libro, autor_libro) {
+  1, 'El Principito', 'Antoine de Saint-Exupery'
+  2, 'Cien Años de Soledad', 'Gabriel Garcia Marquez'
+}
+
+Records prestamos(id_prestamo, fecha_prestamo, id_usuario, id_libro) {
+  5001, '2026-03-01', 1, 1
+  5002, '2026-03-02', 2, 2
+  5003, '2026-03-05', 1, 2
+}
