@@ -1,0 +1,55 @@
+Table pagos {
+  id integer [primary key, not null]
+  id_compras integer [not null]
+  monto integer [not null, check: `monto > 0`]
+}
+
+Table compras {
+  id integer [primary key, not null]
+  fecha datetime
+}
+
+Table detalle_compra {
+  id integer [primary key, not null]
+  id_compras integer [not null]
+  id_producto integer [not null]
+  cantidad integer [not null, check: `cantidad > 0`]
+}
+
+Table producto {
+  id integer [primary key, not null]
+  nombre varchar [not null]
+  stock integer [not null, check: `stock >= 0`]
+}
+
+Ref: "detalle_compra"."id_compras" > "compras"."id"
+Ref: "producto"."id" < "detalle_compra"."id_producto"
+Ref: "compras"."id" - "pagos"."id_compras"
+
+
+Records producto(id, nombre, stock) {
+  1, 'Gansito', 10
+  2, 'Vidrio', 25
+  3, 'Arroz', 0
+  4, 'Zapatos', 8
+  5, 'Bufanda', 20
+}
+
+Records compras(id) {
+  1
+  2
+  3
+}
+
+Records detalle_compra(id, id_compras, id_producto) {
+  1, 1, 1
+  2, 1, 2
+  3, 2, 3
+  4, 3, 4
+}
+
+Records pagos(id, monto) {
+  1, 15000
+  2, 1200
+  3, 4500
+}
